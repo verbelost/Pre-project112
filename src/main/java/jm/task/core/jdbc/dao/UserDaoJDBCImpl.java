@@ -75,7 +75,6 @@ public class UserDaoJDBCImpl implements UserDao {
                     if (!resultSet.next()) break;
                 } catch (SQLException e) {
                     System.out.println("Getting all users is failed...");
-                    System.out.println(e);
                 }
                 String name = resultSet.getString("Name");
                 String lastName = resultSet.getString("lastName");
@@ -86,7 +85,6 @@ public class UserDaoJDBCImpl implements UserDao {
             }
         } catch (SQLException e) {
             System.out.println("Getting all users is failed...");
-            System.out.println(e);
         }
         return list;
     }
