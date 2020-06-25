@@ -70,12 +70,7 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> list = new ArrayList<>();
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
-            while (true) {
-                try {
-                    if (!resultSet.next()) break;
-                } catch (SQLException e) {
-                    System.out.println("Getting all users is failed...");
-                }
+            while (resultSet.next()) {
                 String name = resultSet.getString("Name");
                 String lastName = resultSet.getString("lastName");
                 Byte age = resultSet.getByte("Age");
