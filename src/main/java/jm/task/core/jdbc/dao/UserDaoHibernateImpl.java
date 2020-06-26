@@ -31,10 +31,10 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        String sqlCommand = "DROP TABLE IF EXISTS users";
+        String sqlCommand = "DROP TABLE users";
         Session session = sessionFactory.openSession();
         Transaction trx = session.beginTransaction();
-        session.createSQLQuery(sqlCommand).executeUpdate();
+        session.createSQLQuery(sqlCommand);
         trx.commit();
         session.close();
     }
@@ -46,27 +46,28 @@ public class UserDaoHibernateImpl implements UserDao {
         session.save(new User(name, lastName, age));
         trx.commit();
         session.close();
+        System.out.println("User с именем – " + name + " добавлен в базу данных");
     }
 
     @Override
     public void removeUserById(long id) {
         Session session = sessionFactory.openSession();
         Transaction trx = session.beginTransaction();
-        try {
-            User user = (User)session.load(User.class, id);
-            session.delete(user);
-            trx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        User user = (User)session.load(User.class, id);
+        session.delete(user);
+        trx.commit();
         session.close();
     }
 
     @Override
     public List<User> getAllUsers() {
         Session session = sessionFactory.openSession();
+        Transaction trx = session.beginTransaction();
         Criteria criteria = session.createCriteria(User.class);
-        return (List<User>) criteria.list();
+        List<User> list = (List<User>) criteria.list();
+        trx.commit();
+        session.close();
+        return list;
     }
 
     @Override
